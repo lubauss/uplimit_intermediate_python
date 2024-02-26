@@ -111,22 +111,30 @@ class DataReader:
             'Country': 'Russia',
         }
         """
-    ######################################## YOUR CODE HERE ##################################################
+        ######################################## YOUR CODE HERE ##################################################
         # output generator -- use 'yield' keyword 
         # generate each row: dictionary comprehension
-        
+
         for n_row, row in enumerate(open(self._fp, "r")):
+            if n_row == 0:  # Skip the header row
+                continue
             row_vals = row.strip('\n').split(self._sep)
             
             # define the row_vals dictionary 
-            row_vals = #### [YOUR CODE HERE] ####
-            row_vals['n_row'] = #### [YOUR CODE HERE] ####
+            row_dict = {col_name: self._parse_value(row_val) for col_name, row_val in zip(self._col_names, row_vals)}
+            # Optionally include the row number in the dictionary if needed
+            row_dict['n_row'] = n_row - 1  # Adjusting for zero-indexing and skipped header
 
             # return results: 
-            #### [YOUR CODE HERE] ####
+            yield row_dict
+        ######################################## YOUR CODE HERE ##################################################
+    @staticmethod
+    def _parse_value(val):
+    try:
+        return float(val) if '.' in val else int(val)
+    except ValueError:
+        return val  # Return the original string if it's not a number
     
-    ######################################## YOUR CODE HERE ##################################################
-
     def get_file_path(self):
         return self._fp
 
