@@ -116,16 +116,14 @@ class DataReader:
         # generate each row: dictionary comprehension
 
         for n_row, row in enumerate(open(self._fp, "r")):
-            if n_row == 0:  # Skip the header row
-                continue
             row_vals = row.strip('\n').split(self._sep)
-            
-            # define the row_vals dictionary 
-            row_dict = {col_name: self._parse_value(row_val) for col_name, row_val in zip(self._col_names, row_vals)}
-            # Optionally include the row number in the dictionary if needed
-            row_dict['n_row'] = n_row - 1  # Adjusting for zero-indexing and skipped header
 
-            # return results: 
+            # Define the row_vals dictionary
+            row_dict = {col_name: row_val for col_name, row_val in zip(self._col_names, row_vals)}
+            # Optionally include the row number in the dictionary if needed
+            row_dict['n_row'] = n_row
+
+            # Return results:
             yield row_dict
         ######################################## YOUR CODE HERE ##################################################
     @staticmethod

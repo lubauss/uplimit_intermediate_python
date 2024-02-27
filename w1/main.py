@@ -44,8 +44,8 @@ def revenue_per_region(dp: DataProcessor) -> Dict:
     }
     """
     ######################################## YOUR CODE HERE ##################################################
-    data_reader = #### [YOUR CODE HERE] ####
-    data_reader_gen = #### [YOUR CODE HERE] ####
+    data_reader = dp.data_reader
+    data_reader_gen = (row for row in data_reader)
 
     # skip first row as it is the column name
     _ = next(data_reader_gen)
@@ -54,9 +54,11 @@ def revenue_per_region(dp: DataProcessor) -> Dict:
     aggregate = dict()
 
     for row in tqdm(data_reader_gen):
-        if row[constants.OutDataColNames.COUNTRY] not in aggregate:
-            aggregate[row[constants.OutDataColNames.COUNTRY]] = #### [YOUR CODE HERE] ####
-        aggregate[row[constants.OutDataColNames.COUNTRY]] += #### [YOUR CODE HERE] ####
+        country = row[constants.OutDataColNames.COUNTRY]
+        total_price = float(row[constants.OutDataColNames.TOTAL_PRICE]) 
+        if country not in aggregate:
+            aggregate[country] = 0.0  # Initialize this country in the dictionary with 0.0
+        aggregate[country] += total_price  # Add the total price to the aggregate for this country
 
     return aggregate
     ######################################## YOUR CODE HERE ##################################################
