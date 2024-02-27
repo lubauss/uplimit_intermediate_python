@@ -126,12 +126,6 @@ class DataReader:
             # Return results:
             yield row_dict
         ######################################## YOUR CODE HERE ##################################################
-    @staticmethod
-    def _parse_value(val):
-    try:
-        return float(val) if '.' in val else int(val)
-    except ValueError:
-        return val  # Return the original string if it's not a number
     
     def get_file_path(self):
         return self._fp
