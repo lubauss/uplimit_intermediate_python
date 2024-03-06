@@ -8,7 +8,7 @@ import argparse
 from global_utils import get_file_name, make_dir, plot_sales_data
 from datetime import datetime
 import json
-
+import time
 
 CURRENT_FOLDER_NAME = os.path.dirname(os.path.abspath(__file__))
 
@@ -80,6 +80,7 @@ def get_sales_information(file_path: str) -> Dict:
 
 
 def main():
+    st = time.time()
     parser = argparse.ArgumentParser(description="Choose from one of these : [tst|sml|bg]")
     parser.add_argument('--type',
                         default='tst',
@@ -106,7 +107,8 @@ def main():
 
         plot_sales_data(yearly_revenue=yearly_data['revenue_per_region'], year=yearly_data["file_name"],
                         plot_save_path=os.path.join(output_save_folder, f'{yearly_data["file_name"]}.png'))
-
+    en = time.time()
+    print("Overall time taken w1 : {}".format(en - st))
 
 if __name__ == '__main__':
     main()

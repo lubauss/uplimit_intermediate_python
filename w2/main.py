@@ -189,10 +189,12 @@ def main() -> List[Dict]:
         results = pool.starmap(run, batch_args)
 
         revenue_data = flatten(results)
+        pool.close()
+        pool.join()
     ######################################## YOUR CODE HERE ##################################################
 
     en = time.time()
-    print("Overall time taken : {}".format(en-st))
+    print("Overall time taken w2 : {}".format(en-st))
 
     ######################################## YOUR CODE HERE ##################################################
     for yearly_data in revenue_data:
