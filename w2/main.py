@@ -62,18 +62,35 @@ def get_sales_information(file_path: str) -> Dict:
 
 # batches the files based on the number of processes
 def batch_files(file_paths: List[str], n_processes: int) -> List[set]:
+    """
+    Generate batches of files to be processed in parallel using multiple processes.
+
+    Args:
+        file_paths (List[str]): List of file paths to be batched.
+        n_processes (int): Number of processes to use for parallel processing.
+
+    Returns:
+        List[set]: List of sets representing the batches of file paths to be processed.
+    """
     if n_processes > len(file_paths):
-        return #### [YOUR CODE HERE] ####
+        return []  # Change made here to ensure the return type is consistent (List[set]) #### [YOUR CODE HERE] ####
 
-    n_per_batch = #### [YOUR CODE HERE] ####
+    # Calculate the number of files per batch as an integer division of total files by n_processes
+    n_per_batch = len(file_paths) // n_processes #### [YOUR CODE HERE] ####
 
+    # Determine the length of the first set based on n_per_batch times n_processes
     first_set_len = n_processes * n_per_batch
-    first_set = file_paths[0:first_set_len]
-    second_set = #### [YOUR CODE HERE] ####
+    first_set = file_paths[:first_set_len]
 
+    # The second set contains the remaining files
+    second_set = file_paths[first_set_len:] #### [YOUR CODE HERE] ####
+
+    # Create initial batches from the first set
     batches = [set(file_paths[i:i + n_per_batch]) for i in range(0, len(first_set), n_per_batch)]
+
+    # Distribute files in the second set across existing batches to ensure even distribution
     for ind, each_file in enumerate(second_set):
-        #### [YOUR CODE HERE] ####
+        batches[ind % n_processes].add(each_file)  # This ensures an even distribution of leftover files #### [YOUR CODE HERE] ####
 
     return batches
 
@@ -165,7 +182,13 @@ def main() -> List[Dict]:
 
     ######################################## YOUR CODE HERE ##################################################
     with multiprocessing.Pool(processes=n_processes) as pool:
+        # Prepare arguments for each batch: Each item in 'batch_args' is a tuple of (batch, index)
+        batch_args = [(list(batch), index) for index, batch in enumerate(batches)]
         
+        # Execute 'run' method in parallel for each batch
+        results = pool.starmap(run, batch_args)
+
+        revenue_data = flatten(results)
     ######################################## YOUR CODE HERE ##################################################
 
     en = time.time()
@@ -173,12 +196,15 @@ def main() -> List[Dict]:
 
     ######################################## YOUR CODE HERE ##################################################
     for yearly_data in revenue_data:
-        
+        with open(os.path.join(output_save_folder, f'{yearly_data["file_name"]}.json'), 'w') as f:
+            f.write(json.dumps(yearly_data))
 
+        plot_sales_data(yearly_revenue=yearly_data['revenue_per_region'], year=yearly_data["file_name"],
+                        plot_save_path=os.path.join(output_save_folder, f'{yearly_data["file_name"]}.png'))
     ######################################## YOUR CODE HERE ##################################################
         
     # should return revenue data
-    return #### [YOUR CODE HERE] ####
+    return revenue_data
 
 
 if __name__ == '__main__':
