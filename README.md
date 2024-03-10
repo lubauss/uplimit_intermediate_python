@@ -1,4 +1,4 @@
-# W1 - Python Data Processing Project
+# WEEK 1 - Python Data Processing Project
 
 ## 🚀 Project Overview
 This project focuses on building a data processing module using Python, incorporating advanced features like generators, comprehensions, and object-oriented programming. The goal is to extract and analyze year-over-year revenue and revenue by region from Bamazon Inc.'s sales data spanning 2015 to 2021.
@@ -46,7 +46,7 @@ Successfully developed and tested a Python module capable of:
 - Aggregating sales data to calculate revenue metrics.
 - Producing reports including bar graphs and JSON files for data visualization.
 
-# Python Multiprocessing Optimization Project
+# WEEK 2 - Python Multiprocessing Optimization Project
 
 ## 🎯 Goal
 - To optimize Python code using multiprocessing, focusing on reducing execution time for data processing tasks.
@@ -80,7 +80,6 @@ Successfully developed and tested a Python module capable of:
 
 ---
 
-By following these recommendations and continuing to explore advanced concepts and applications of multiprocessing, further growth in Python programming and performance optimization can be achieved. Embrace the journey ahead with curiosity and determination.
 
 
 # How to run the code
